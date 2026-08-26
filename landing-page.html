@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The First Language — Private Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=Public+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C1A17;
+    --ink-soft:#2A2621;
+    --parchment:#EDE3CE;
+    --parchment-dim:#E2D5B8;
+    --copper:#B5652E;
+    --copper-bright:#C97840;
+    --teal:#2B5C57;
+    --vermillion:#C13B30;
+    --gold:#C9A227;
+    --line: rgba(237,227,206,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+  }
+  .serif{ font-family:'Fraunces', serif; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    background:var(--ink);
+    color:var(--parchment);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:6rem 1.5rem 4rem;
+    overflow:hidden;
+  }
+  .hatch{
+    position:absolute; inset:0;
+    opacity:0.5;
+    background-image: repeating-linear-gradient(115deg, rgba(237,227,206,0.045) 0px, rgba(237,227,206,0.045) 1px, transparent 1px, transparent 7px);
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    color:var(--copper-bright);
+    margin-bottom:2.2rem;
+    position:relative;
+    z-index:2;
+  }
+  .spiral-wrap{
+    width:150px; height:150px;
+    margin-bottom:1.5rem;
+    position:relative;
+    z-index:2;
+  }
+  .spiral-wrap svg{ width:100%; height:100%; }
+  .spiral-path{
+    fill:none;
+    stroke:var(--copper-bright);
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-dasharray:900;
+    stroke-dashoffset:900;
+    animation: draw 2.6s cubic-bezier(.65,0,.35,1) 0.3s forwards;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:450;
+    font-size:clamp(2.3rem, 6vw, 4.6rem);
+    line-height:1.08;
+    max-width:16ch;
+    margin-bottom:1.6rem;
+    position:relative; z-index:2;
+  }
+  .hero p.sub{
+    font-size:clamp(1rem, 1.6vw, 1.2rem);
+    color:rgba(237,227,206,0.72);
+    max-width:36ch;
+    margin-bottom:2.6rem;
+    position:relative; z-index:2;
+    font-weight:300;
+  }
+  .btn{
+    display:inline-block;
+    background:var(--copper);
+    color:var(--parchment);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-size:0.78rem;
+    padding:1rem 2.1rem;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    transition:background 0.25s ease, transform 0.25s ease;
+    position:relative; z-index:2;
+  }
+  .btn:hover{ background:var(--copper-bright); transform:translateY(-1px); }
+  .btn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  .hero-note{
+    margin-top:1.4rem;
+    color:rgba(237,227,206,0.45);
+    position:relative; z-index:2;
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+    width:1px; height:40px;
+    background:linear-gradient(to bottom, transparent, rgba(237,227,206,0.5));
+    z-index:2;
+  }
+
+  /* ---------- HOOK ---------- */
+  .hook{
+    padding:7rem 1.5rem;
+    display:flex; justify-content:center;
+  }
+  .hook-inner{ max-width:640px; text-align:center; }
+  .hook p{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.15rem, 2.4vw, 1.55rem);
+    line-height:1.55;
+    color:var(--ink-soft);
+  }
+  .hook p + p{ margin-top:1.6rem; }
+  .hook-rule{
+    width:40px; height:2px; background:var(--copper);
+    margin:0 auto 2.2rem;
+  }
+
+  /* ---------- SERIES / CATALOG ---------- */
+  .entry{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    min-height:100vh;
+  }
+  .entry.reverse{ direction:rtl; }
+  .entry.reverse > *{ direction:ltr; }
+  .entry-media{
+    position:relative;
+    overflow:hidden;
+    background:var(--ink);
+    min-height:420px;
+  }
+  .entry-media img{
+    width:100%; height:100%; object-fit:cover;
+    display:block;
+  }
+  .media-grid{
+    display:grid; grid-template-columns:auto; grid-template-rows:auto; height:100%;
+    gap:2px;
+  }
+  .media-grid img{ height:100%; object-fit:cover; }
+  .media-grid .span-2{ grid-column:1 / span 2; }
+
+  .entry-text{
+    background:var(--parchment);
+    display:flex; flex-direction:column; justify-content:center;
+    padding:4rem 4.5rem;
+  }
+  .entry.dark .entry-text{ background:var(--ink); color:var(--parchment); }
+  .entry-num{
+    color:var(--copper);
+    margin-bottom:1.4rem;
+  }
+  .entry.dark .entry-num{ color:var(--copper-bright); }
+  .entry-text h2{
+    font-family:'Fraunces', serif;
+    font-weight:450;
+    font-size:clamp(1.7rem, 3vw, 2.5rem);
+    margin-bottom:1.3rem;
+    line-height:1.15;
+  }
+  .entry-text p.desc{
+    max-width:46ch;
+    color:var(--ink-soft);
+    font-weight:300;
+    font-size:1.02rem;
+  }
+  .entry.dark .entry-text p.desc{ color:rgba(237,227,206,0.75); }
+  .entry-works{
+    margin-top:2rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.03em;
+    color:var(--copper);
+  }
+  .entry.dark .entry-works{ color:var(--copper-bright); }
+
+  /* ---------- PROCESS ---------- */
+  .process{
+    background:var(--teal);
+    color:var(--parchment);
+    padding:6rem 1.5rem;
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:3.5rem;
+    align-items:center;
+  }
+  .process img{
+    filter:sepia(0.12) contrast(1.02);
+  }
+  .process-text .mono{ color:var(--gold); margin-bottom:1.3rem; display:block; }
+  .process-text h2{
+    font-family:'Fraunces', serif; font-weight:450;
+    font-size:clamp(1.6rem,2.8vw,2.3rem);
+    margin-bottom:1.3rem;
+  }
+  .process-text p{
+    font-weight:300; max-width:48ch; color:rgba(237,227,206,0.82);
+  }
+
+  /* ---------- CAPTURE ---------- */
+  .capture{
+    background:var(--ink);
+    color:var(--parchment);
+    padding:7rem 1.5rem;
+    text-align:center;
+  }
+  .capture-inner{ max-width:520px; margin:0 auto; }
+  .capture .mono{ color:var(--copper-bright); margin-bottom:1.4rem; }
+  .capture h2{
+    font-family:'Fraunces', serif; font-weight:450;
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+    margin-bottom:1rem;
+    line-height:1.15;
+  }
+  .capture > p{
+    color:rgba(237,227,206,0.65); margin-bottom:2.8rem; font-weight:300;
+  }
+  form{ text-align:left; }
+  .field{ margin-bottom:1.3rem; }
+  .field label{
+    display:block; font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:rgba(237,227,206,0.5); margin-bottom:0.5rem;
+  }
+  .field input, .field select{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line);
+    color:var(--parchment);
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    padding:0.7rem 0.2rem;
+    outline:none;
+    transition:border-color 0.2s ease;
+  }
+  .field input:focus, .field select:focus{ border-bottom-color:var(--copper-bright); }
+  .field select option{ background:var(--ink); color:var(--parchment); }
+  form .btn{ width:100%; margin-top:1rem; text-align:center; }
+  .capture-foot{
+    margin-top:1.4rem; text-align:center;
+    color:rgba(237,227,206,0.4);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--parchment-dim);
+    padding:2.4rem 1.5rem;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:1rem;
+  }
+  footer .mono{ color:var(--ink-soft); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .entry, .entry.reverse{ grid-template-columns:1fr; direction:ltr; }
+    .entry-media{ min-height:340px; }
+    .entry-text{ padding:3rem 1.6rem; }
+    .process{ grid-template-columns:1fr; }
+    footer{ flex-direction:column; text-align:center; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .spiral-path{ animation:none; stroke-dashoffset:0; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hatch"></div>
+  <div class="hero-eyebrow mono">Private Collection — By Application</div>
+
+  <div class="spiral-wrap" aria-hidden="true">
+    <svg viewBox="0 0 150 150">
+      <path class="spiral-path" d="M75,75 m0,0 c0,-8 8,-8 8,0 c0,12 -20,12 -20,-3 c0,-19 30,-19 30,4 c0,26 -42,26 -42,-6 c0,-33 54,-33 54,9 c0,40 -66,40 -66,-11" />
+    </svg>
+  </div>
+
+  <h1>Before there were words,<br>there were marks.</h1>
+  <p class="sub">Original works exploring humanity's oldest visual language — reimagined for the way we live now.</p>
+  <a href="#request" class="btn">Request Private Viewing Access</a>
+  <div class="hero-note mono">Six series. Limited availability.</div>
+
+  <div class="scroll-cue"></div>
+</section>
+
+<!-- ============ HOOK ============ -->
+<section class="hook">
+  <div class="hook-inner">
+    <div class="hook-rule"></div>
+    <p>Every culture that ever existed independently invented the same handful of marks — the spiral, the grid, the mask, the animal as symbol. Long before anyone could write a sentence, someone was already saying something with a line.</p>
+    <p>This body of work doesn't belong to one place or one moment. It takes that shared human instinct — the oldest language we have — and speaks it again, in color and form built for the walls we live with today.</p>
+    <p>Ancient in origin. Contemporary in voice. Made to be lived with, not just looked at.</p>
+  </div>
+</section>
+
+<!-- ============ ENTRY I — ANIMAL MARKS ============ -->
+<section class="entry">
+  <div class="entry-media">
+    <div class="media-grid">
+      <img src="img/Ancient Echo framed_.png" alt="Mosaic-patterned antelope against a mountain landscape" class="span-2">
+      <!-- <img src="img/Echoes of Humanity 2.png" alt="Antelope with spiral patterning on a dark ground"> -->
+      <img src="img/The Crowned Strider framed.png" alt="Elk with geometric patterning against a copper spiral ground">
+    </div>
+  </div>
+  <div class="entry-text">
+    <div class="entry-num mono">Entry I — The Animal Marks</div>
+    <h2>Two studies of the same idea.</h2>
+    <p class="desc">A creature rendered in two truths at once — a solid, ancient silhouette, and a body made entirely of fractured, brilliant colour. The animal remembers what it was. The colour insists on what it's becoming.</p>
+    <div class="entry-works">Series of three — available together or individually</div>
+  </div>
+</section>
+
+<!-- ============ ENTRY II — THE ARCHIVES ============ -->
+<section class="entry dark reverse">
+  <div class="entry-media">
+    <img src="img/Echoes of Humanity 2.png" alt="Composite artwork with rows of spirals and figures, many symbols in one field">
+  </div>
+  <div class="entry-text">
+    <div class="entry-num mono">Entry II — The Archives</div>
+    <h2>Pages from a book no one wrote down.</h2>
+    <p class="desc">The most ambitious works in the collection. Dozens of individual marks, symbols, and forms — boats, suns, figures, spirals — gathered into a single field. Not a painting of one thing. A painting of everything a visual language remembers.</p>
+    <div class="entry-works">Statement pieces — one available now</div>
+  </div>
+</section>
+
+<!-- ============ ENTRY III — THE KEEPER ============ -->
+<section class="entry">
+  <div class="entry-media">
+    <img src="img/The Gentle Giant framed.png" alt="Elephant figure entirely covered in varied hand-drawn patterns">
+  </div>
+  <div class="entry-text">
+    <div class="entry-num mono">Entry III — The Keeper</div>
+    <h2>One creature, carrying the whole archive.</h2>
+    <p class="desc">Every inch patterned differently — no two sections alike. A single animal that carries an entire visual language on its back, the way its kind are said to carry memory across generations.</p>
+    <div class="entry-works">One available now</div>
+  </div>
+</section>
+
+<!-- ============ ENTRY IV — THE ADORNED ============ -->
+<section class="entry dark reverse">
+  <div class="entry-media">
+    <div class="media-grid">
+      <img src="img/mask 1.png" alt="Portrait with woven leaf background and layered beaded collar">
+      <!-- <img src="art/portrait-2.jpg" alt="Portrait with circular headdress and beaded braids against leaves"> -->
+    </div>
+  </div>
+  <div class="entry-text">
+    <div class="entry-num mono">Entry IV — The Adorned</div>
+    <h2>What people choose to wear closest to the body.</h2>
+    <p class="desc">Portraits built around beads, headdresses, woven colour. Not costume — adornment as its own language, worn the same way for as long as anyone has been alive to wear it.</p>
+    <div class="entry-works">Two available now</div>
+  </div>
+</section>
+
+<!-- ============ ENTRY V — THE MASKS ============ -->
+<section class="entry">
+  <div class="entry-media">
+    <div class="media-grid">
+      <img src="img/the adorned.png" alt="Weathered mask-like face against dense green leaf texture">
+      <img src="img/Beauty of the Earth framed.png" alt="Mask-like face with spiral hair pattern against teal herringbone texture">
+    </div>
+  </div>
+  <div class="entry-text">
+    <div class="entry-num mono">Entry V — The Masks</div>
+    <h2>The face, made still.</h2>
+    <p class="desc">Weathered, worn, deliberately unplaced in time — these studies feel less painted than found, like objects that existed before the canvas did.</p>
+    <div class="entry-works">Two available now</div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="process">
+  <img src="img/Work-in-progress.jpeg" alt="Studio work in progress, pastels and inks beside an unfinished painting">
+  <div class="process-text">
+    <span class="mono">The Process</span>
+    <h2>Nothing here is generated, templated, or repeated.</h2>
+    <p>Every piece begins as a hand-drawn field of texture — hours of linework before a single colour is chosen. The pattern is never printed or stencilled. It's built stroke by stroke, the same way it would have been a thousand years ago.</p>
+  </div>
+</section>
+
+<!-- ============ CAPTURE ============ -->
+<section class="capture" id="request">
+  <div class="capture-inner">
+    <span class="mono">Request Access</span>
+    <h2>Get access before pieces are listed publicly.</h2>
+    <p>New works are shared with this list first — often before they're available anywhere else.</p>
+    <form onsubmit="event.preventDefault(); alert('This is a design preview — connect this form to your email tool to go live.');">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="field">
+        <label for="role">I am a</label>
+        <select id="role" name="role">
+          <option>Collector</option>
+          <option>Interior Designer</option>
+          <option>Architect</option>
+          <option>Gallery</option>
+          <option>Just Browsing</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Request Access</button>
+    </form>
+    <div class="capture-foot mono">By application, not open sale</div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <span class="mono">Original Works · Limited Availability</span>
+  <span class="mono"><a href="https://www.instagram.com/art_is_ajay/" target="_blank" style="text-decoration: none;">Instagram</a> · Pinterest</span>
+</footer>
+
+</body>
+</html>
